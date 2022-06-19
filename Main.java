@@ -493,27 +493,27 @@ class MergeSort{
         int [] leftArray =new int[mid-low+1];
         int [] rightArray =new int[high-mid];
 
-        for(int i=0;i<mid;i++){
+        for(int i=0;i<leftArray.length;i++){
             leftArray[i]=array[i+low];
         }
-        for(int i=0;i<mid;i++){
+        for(int i=0;i<rightArray.length;i++){
             rightArray[i]=array[i+mid+1];
         }
 
         int i=0;
         int j=0;
-        int index=0;
+        int index=low;
 
         while (i<leftArray.length && j<rightArray.length){
-
             if(leftArray[i]<rightArray[j]){
                 array[index]=leftArray[i];
+                index++;
                 i++;
             }else {
                 array[index]=rightArray[j];
                 j++;
+                index++;
             }
-            index++;
 
         }
         while (i<leftArray.length){
@@ -526,7 +526,6 @@ class MergeSort{
             j++;
             index++;
         }
-/// TODO: 19.06.2022
 
     }
 }
