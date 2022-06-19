@@ -17,15 +17,15 @@ public class Main {
 
 class App extends JFrame implements ActionListener {
 
-    JButton generuj;
+    JButton generate;
     JTextArea field;
-    JTextField ilosc;
+    JTextField arrayLength;
     JTextField min;
     JTextField max;
     JLabel labelMin;
     JLabel labelMax;
-    JLabel labelIlosc;
-    JLabel sortowanie;
+    JLabel labelArrayLength;
+    JLabel sorting;
     JLabel bubblesort;
     JTextArea bubblesortArea;
     JLabel selectionsort;
@@ -34,37 +34,43 @@ class App extends JFrame implements ActionListener {
     JTextArea quicksortArea;
     JLabel mergesort;
     JTextArea mergesortArea;
-    JLabel czasBubblesort;
-    JLabel czasQuicksor;
-    JLabel czasSelectionsort;
-    JLabel czasMergesort;
-    JButton sortujBubblesort;
-    JButton sortujSelectionsort;
-    JButton sortujQuicksort;
-    JButton sortujMergesort;
+    JLabel bubblesortTime;
+    JLabel quicksortTime;
+    JLabel selectionsortTime;
+    JLabel mergesortTime;
+    JButton sortUsingBubblesort;
+    JButton sortUsingSelectionsort;
+    JButton sortUsingQuicksort;
+    JButton sortUsingMergesort;
 
 
-    JLabel wyszukiwanie;
-    JButton szukaj;
-    JTextArea szukanaLiczba;
-    JTextArea pozycjaWCiągu;
-    JComboBox<String> wybierzMetodeSortowania;
+    JLabel searching;
+    JButton search;
+    JTextArea seacrhedNumber;
+    JTextArea indexInArray;
+    JComboBox<String> chooseMethodOfSorting;
     int setSearchMethod;
 
-    int[] ciąg;
+    int[] array;
     int[] arr1;
+    int[] arr2;
+    int[] arr3;
+    int[] arr4;
 
 
     App() {
-        generuj = new JButton();
-        generuj.setText("Generuj");
-        generuj.setBounds(450, 30, 100, 30);
-        generuj.setFocusable(true);
-        generuj.addActionListener(this);
+        generate = new JButton();
+        generate.setText("Generate");
+        generate.setBounds(450, 30, 100, 30);
+        generate.setFocusable(true);
+        generate.addActionListener(this);
+
 
         field = new JTextArea();
+        field.setEnabled(true);
+        field.setEditable(true);
         field.setBounds(290, 30, 150, 30);
-        field.setEditable(false);
+
 
 
         min = new JTextField();
@@ -87,22 +93,22 @@ class App extends JFrame implements ActionListener {
         labelMax.setFont(new Font("Arial", Font.BOLD, 12));
         this.add(labelMax);
 
-        ilosc = new JTextField();
-        ilosc.setBounds(210, 30, 40, 20);
-        ilosc.setEditable(true);
+        arrayLength = new JTextField();
+        arrayLength.setBounds(220, 30, 40, 20);
+        arrayLength.setEditable(true);
 
-        labelIlosc = new JLabel();
-        labelIlosc.setBounds(170, 32, 33, 15);
-        labelIlosc.setText("Ilość: ");
-        labelIlosc.setFont(new Font("Arial", Font.BOLD, 12));
-        this.add(labelIlosc);
+        labelArrayLength = new JLabel();
+        labelArrayLength.setBounds(170, 32, 50, 15);
+        labelArrayLength.setText("Length: ");
+        labelArrayLength.setFont(new Font("Arial", Font.BOLD, 12));
+        this.add(labelArrayLength);
 
 
-        sortowanie = new JLabel();
-        sortowanie.setBounds(40, 100, 150, 60);
-        sortowanie.setText("Sortowanie: ");
-        sortowanie.setFont(new Font("Arial", Font.BOLD, 20));
-        this.add(sortowanie);
+        sorting = new JLabel();
+        sorting.setBounds(40, 100, 150, 60);
+        sorting.setText("Sorting: ");
+        sorting.setFont(new Font("Arial", Font.BOLD, 20));
+        this.add(sorting);
 
         bubblesort = new JLabel();
         bubblesort.setBounds(50, 130, 90, 60);
@@ -112,20 +118,20 @@ class App extends JFrame implements ActionListener {
 
         bubblesortArea = new JTextArea();
         bubblesortArea.setBounds(200, 145, 200, 30);
-        bubblesortArea.setVisible(true);
+        bubblesortArea.setEditable(false);
         this.add(bubblesortArea);
 
-        czasBubblesort = new JLabel();
-        czasBubblesort.setBounds(480, 145, 120, 30);
-        czasBubblesort.setText("Czas(ns): ");
-        this.add(czasBubblesort);
+        bubblesortTime = new JLabel();
+        bubblesortTime.setBounds(480, 145, 120, 30);
+        bubblesortTime.setText("Time(ns): ");
+        this.add(bubblesortTime);
 
-        sortujBubblesort = new JButton();
-        sortujBubblesort.setBounds(415, 145, 60, 30);
-        sortujBubblesort.setText("Sortuj");
-        sortujBubblesort.setFont(new Font("Arial", Font.BOLD, 8));
-        sortujBubblesort.addActionListener(this);
-        this.add(sortujBubblesort);
+        sortUsingBubblesort = new JButton();
+        sortUsingBubblesort.setBounds(415, 145, 60, 30);
+        sortUsingBubblesort.setText("Sort");
+        sortUsingBubblesort.setFont(new Font("Arial", Font.BOLD, 8));
+        sortUsingBubblesort.addActionListener(this);
+        this.add(sortUsingBubblesort);
 
 
         selectionsort = new JLabel();
@@ -136,20 +142,21 @@ class App extends JFrame implements ActionListener {
 
         selectionsortArea = new JTextArea();
         selectionsortArea.setBounds(200, 200, 200, 30);
-        selectionsortArea.setVisible(true);
+        selectionsortArea.setEditable(false);
         this.add(selectionsortArea);
 
-        czasSelectionsort = new JLabel();
-        czasSelectionsort.setBounds(480, 200, 120, 30);
-        czasSelectionsort.setText("Czas(ns): ");
-        this.add(czasSelectionsort);
+        selectionsortTime = new JLabel();
+        selectionsortTime.setBounds(480, 200, 120, 30);
+        selectionsortTime.setText("Time(ns): ");
+        this.add(selectionsortTime);
 
-        sortujSelectionsort = new JButton();
-        sortujSelectionsort.setBounds(415, 200, 60, 30);
-        sortujSelectionsort.setText("Sortuj");
-        sortujSelectionsort.setFont(new Font("Arial", Font.BOLD, 8));
-        sortujSelectionsort.addActionListener(this);
-        this.add(sortujSelectionsort);
+        sortUsingSelectionsort = new JButton();
+        sortUsingSelectionsort.setText("Sort");
+        sortUsingSelectionsort.setBounds(415, 200, 60, 30);
+        sortUsingSelectionsort.setBounds(415, 200, 60, 30);
+        sortUsingSelectionsort.setFont(new Font("Arial", Font.BOLD, 8));
+        sortUsingSelectionsort.addActionListener(this);
+        this.add(sortUsingSelectionsort);
 
 
         quicksort = new JLabel();
@@ -160,21 +167,21 @@ class App extends JFrame implements ActionListener {
 
         quicksortArea = new JTextArea();
         quicksortArea.setBounds(200, 255, 200, 30);
-        quicksortArea.setVisible(true);
+        quicksortArea.setEditable(false);
         this.add(quicksortArea);
 
-        czasQuicksor = new JLabel();
-        czasQuicksor.setBounds(480, 255, 120, 30);
-        czasQuicksor.setText("Czas(ns): ");
-        this.add(czasQuicksor);
+        quicksortTime = new JLabel();
+        quicksortTime.setBounds(480, 255, 120, 30);
+        quicksortTime.setText("Time(ns): ");
+        this.add(quicksortTime);
 
 
-        sortujQuicksort = new JButton();
-        sortujQuicksort.setBounds(415, 255, 60, 30);
-        sortujQuicksort.setText("Sortuj");
-        sortujQuicksort.setFont(new Font("Arial", Font.BOLD, 8));
-        sortujQuicksort.addActionListener(this);
-        this.add(sortujQuicksort);
+        sortUsingQuicksort = new JButton();
+        sortUsingQuicksort.setBounds(415, 255, 60, 30);
+        sortUsingQuicksort.setText("Sort");
+        sortUsingQuicksort.setFont(new Font("Arial", Font.BOLD, 8));
+        sortUsingQuicksort.addActionListener(this);
+        this.add(sortUsingQuicksort);
 
 
         mergesort = new JLabel();
@@ -185,81 +192,91 @@ class App extends JFrame implements ActionListener {
 
         mergesortArea = new JTextArea();
         mergesortArea.setBounds(200, 310, 200, 30);
-        mergesortArea.setVisible(true);
+        mergesortArea.setEditable(false);
         this.add(mergesortArea);
 
-        czasMergesort = new JLabel();
-        czasMergesort.setBounds(480, 310, 120, 30);
-        czasMergesort.setText("Czas(ns): ");
-        this.add(czasMergesort);
+        mergesortTime = new JLabel();
+        mergesortTime.setBounds(480, 310, 120, 30);
+        mergesortTime.setText("Time(ns): ");
+        this.add(mergesortTime);
 
 
-        sortujMergesort = new JButton();
-        sortujMergesort.setBounds(415, 310, 60, 30);
-        sortujMergesort.setText("Sortuj");
-        sortujMergesort.setFont(new Font("Arial", Font.BOLD, 8));
-        sortujMergesort.addActionListener(this);
-        this.add(sortujMergesort);
+        sortUsingMergesort = new JButton();
+        sortUsingMergesort.setBounds(415, 310, 60, 30);
+        sortUsingMergesort.setText("Sort");
+        sortUsingMergesort.setFont(new Font("Arial", Font.BOLD, 8));
+        sortUsingMergesort.addActionListener(this);
+        this.add(sortUsingMergesort);
 
 
-        wyszukiwanie = new JLabel();
-        wyszukiwanie.setBounds(40, 400, 200, 60);
-        wyszukiwanie.setFont(new Font("Arial", Font.BOLD, 20));
-        wyszukiwanie.setText("Wyszukiwanie: ");
+        searching = new JLabel();
+        searching.setBounds(40, 400, 200, 60);
+        searching.setFont(new Font("Arial", Font.BOLD, 20));
+        searching.setText("Searching: ");
 
-        szukaj = new JButton();
-        szukaj.setBounds(40, 470, 60, 30);
-        szukaj.setText("Szukaj");
-        szukaj.addActionListener(this);
+        search = new JButton();
+        search.setBounds(40, 470, 80, 30);
+        search.setText("Search");
+        search.addActionListener(this);
 
-        szukanaLiczba = new JTextArea();
-        szukanaLiczba.setBounds(120, 470, 70, 30);
+        seacrhedNumber = new JTextArea();
+        seacrhedNumber.setBounds(180, 470, 70, 30);
 
-        pozycjaWCiągu = new JTextArea();
-        pozycjaWCiągu.setBounds(220, 470, 70, 30);
-        pozycjaWCiągu.setEditable(false);
+        indexInArray = new JTextArea();
+        indexInArray.setBounds(300, 470, 70, 30);
+        indexInArray.setEditable(false);
+
+        JLabel label=new JLabel();
+        label.setText("Index in array: ");
+        label.setBounds(280,440,90,30);
+        this.add(label);
+
+        JLabel label1=new JLabel();
+        label1.setText("Search for a number: ");
+        label1.setBounds(140,440,130,30);
+        this.add(label1);
 
 
-        wybierzMetodeSortowania = new JComboBox<String>();
-        wybierzMetodeSortowania.setBounds(400, 470, 70, 40);
+
+
+        chooseMethodOfSorting = new JComboBox<String>();
+        chooseMethodOfSorting.setBounds(400, 470, 150, 30);
         JButton BinarySearch = new JButton();
+
+
         BinarySearch.setText("BinarySearch");
-        wybierzMetodeSortowania.addItem("Wybierz");
-        wybierzMetodeSortowania.addItem("BinarySearch");
-        wybierzMetodeSortowania.addItem("InterpolationSearch");
-        wybierzMetodeSortowania.addItemListener(e -> {
+        chooseMethodOfSorting.addItem("Choose");
+        chooseMethodOfSorting.addItem("BinarySearch");
+        chooseMethodOfSorting.addItem("InterpolationSearch");
+        chooseMethodOfSorting.addItemListener(e -> {
             if (e.getStateChange() == ItemEvent.SELECTED) {
-                if (wybierzMetodeSortowania.getSelectedItem().toString().equals("BinarySearch")) {
-                    JOptionPane.showMessageDialog(null, "Wybrałeś BinarySearch",
-                            "informacja", JOptionPane.INFORMATION_MESSAGE);
+                if (chooseMethodOfSorting.getSelectedItem().toString().equals("BinarySearch")) {
                     setSearchMethod = 0;
-
-
                 }
             }
             if (e.getStateChange() == ItemEvent.SELECTED) {
-                if (wybierzMetodeSortowania.getSelectedItem().toString().equals("InterpolationSearch")) {
-                    JOptionPane.showMessageDialog(null, "Wybrałeś InterpolationSearch", "informacja",
-                            JOptionPane.INFORMATION_MESSAGE);
+                if (chooseMethodOfSorting.getSelectedItem().toString().equals("InterpolationSearch")) {
                     setSearchMethod = 1;
                 }
             }
         });
 
 
-        this.add(wybierzMetodeSortowania);
-        this.add(pozycjaWCiągu);
-        this.add(szukanaLiczba);
-        this.add(szukaj);
-        this.add(wyszukiwanie);
-        this.add(generuj);
-        this.add(field);
-        this.add(ilosc);
+        this.add(chooseMethodOfSorting);
+        this.add(indexInArray);
+        this.add(seacrhedNumber);
+        this.add(search);
+        this.add(searching);
+        this.add(generate);
+
+        this.add(arrayLength);
         this.add(max);
         this.add(min);
-
+        this.getContentPane().setBackground(Color.lightGray);
+        this.setSize(650,800);
+        this.setResizable(false);
         this.setLayout(null);
-        this.setSize(600, 800);
+        this.add(field);
         this.setVisible(true);
 
     }
@@ -268,29 +285,37 @@ class App extends JFrame implements ActionListener {
     @Override
     public void actionPerformed(ActionEvent e) {
 
+try {
+    if (e.getSource() == generate) {
 
-        if (e.getSource() == generuj) {
-            ciąg = new int[Integer.parseInt(ilosc.getText())];
-
-            StringBuilder sb = new StringBuilder();
-
-            for (int i = 0; i < Integer.parseInt(ilosc.getText()); i++) {
-                ciąg[i] = (int) Math.floor((Math.random() * (Integer.parseInt(max.getText()) -
-                        Integer.parseInt(min.getText()) + 1) + Integer.parseInt(min.getText())));
-            }
-
-
-            for (int j : ciąg) {
-                sb.append(j);
-            }
-
-            pozycjaWCiągu.setText("");
-            field.setText(sb.toString());
-
+        if(arrayLength.getText().isEmpty() || max.getText().isEmpty() || min.getText().isEmpty()){
+            throw new Exception();
         }
 
-        if (e.getSource() == sortujBubblesort) {
-            arr1 = ciąg;
+        array = new int[Integer.parseInt(arrayLength.getText())];
+
+        StringBuilder sb = new StringBuilder();
+
+        for (int i = 0; i < Integer.parseInt(arrayLength.getText()); i++) {
+            array[i] = (int) Math.floor((Math.random() * (Integer.parseInt(max.getText()) -
+                    Integer.parseInt(min.getText()) + 1) + Integer.parseInt(min.getText())));
+        }
+
+
+        for (int j : array) {
+            sb.append(j);
+        }
+
+        indexInArray.setText("");
+        field.setText(sb.toString());
+
+    }
+} catch (Exception ex) {
+JOptionPane.showMessageDialog(null,"Please, insert required data","error",JOptionPane.ERROR_MESSAGE);
+
+}
+        if (e.getSource() == sortUsingBubblesort) {
+            arr1 = array;
             long start = System.nanoTime();
 
             for (int i = 0; i < arr1.length; i++) {
@@ -311,10 +336,10 @@ class App extends JFrame implements ActionListener {
             }
 
             bubblesortArea.setText(sb.toString());
-            czasBubblesort.setText("Czas(ns): " + time / 10000);
+            bubblesortTime.setText("Time(ns): " + time);
         }
-        if (e.getSource() == sortujSelectionsort) {
-            int[] arr2 = ciąg;
+        if (e.getSource() == sortUsingSelectionsort) {
+            arr2 = array;
 
             long start = System.nanoTime();
 
@@ -339,15 +364,15 @@ class App extends JFrame implements ActionListener {
             }
 
             selectionsortArea.setText(sb.toString());
-            czasSelectionsort.setText("Czas(ns): " + time / 10000);
+            selectionsortTime.setText("Time(ns): " + time);
 
         }
-        if (e.getSource() == sortujQuicksort) {
-            int[] arr3 = ciąg;
+        if (e.getSource() == sortUsingQuicksort) {
+            arr3 = array;
             long start = System.nanoTime();
 
 
-            QuickSort.quickSort(arr3, 0, Integer.parseInt(ilosc.getText()) - 1);
+            QuickSort.quickSort(arr3, 0, Integer.parseInt(arrayLength.getText()) - 1);
             long time = (System.nanoTime() - start);
 
             StringBuilder sb = new StringBuilder();
@@ -356,14 +381,14 @@ class App extends JFrame implements ActionListener {
             }
 
             quicksortArea.setText(sb.toString());
-            czasQuicksor.setText("Czas(ns): " + time / 10000);
+            quicksortTime.setText("Time(ns): " + time);
 
 
         }
 
-        if (e.getSource() == sortujMergesort) {
+        if (e.getSource() == sortUsingMergesort) {
 
-            int[] arr4 = ciąg;
+            arr4 = array;
             long start = System.nanoTime();
 
             MergeSort.mergeSort(arr4, 0, arr4.length - 1);
@@ -377,20 +402,20 @@ class App extends JFrame implements ActionListener {
                 sb.append(j);
             }
             mergesortArea.setText(sb.toString());
-            czasMergesort.setText("Czas(ns): " + time / 10000);
+            mergesortTime.setText("Time(ns): " + time);
         }
 
-        Object[] sortedArrays = {arr1};
+        Object[] sortedArrays = {arr1,arr2,arr3,arr4};
 
 
-        if (e.getSource() == szukaj) {
+        if (e.getSource() == search) {
 
             int[] methods = {BinarySearch.binarySearch(arr1, 0,
-                    arr1.length - 1, Integer.parseInt(szukanaLiczba.getText())),
+                    arr1.length - 1, Integer.parseInt(seacrhedNumber.getText())),
                     BinarySearch.interpolationSearch(arr1,
-                            0, arr1.length - 1, Integer.parseInt(szukanaLiczba.getText()))};
+                            0, arr1.length - 1, Integer.parseInt(seacrhedNumber.getText()))};
 
-            pozycjaWCiągu.setText(String.valueOf(methods[setSearchMethod]));
+            indexInArray.setText(String.valueOf(methods[setSearchMethod]));
 
 
         }
@@ -433,18 +458,18 @@ class BinarySearch {
 
 class QuickSort {
 
-    static void quickSort(int[] nums, int nizszy, int wyzszy) {
+    static void quickSort(int[] nums, int low, int high) {
 
         if (nums.length == 0) {
             return;
         }
-        if (nizszy >= wyzszy) {
+        if (low >= high) {
             return;
         }
 
-        int i = nizszy;
-        int j = wyzszy;
-        int pivot = nums[nizszy + (wyzszy - nizszy) / 2];
+        int i = low;
+        int j = high;
+        int pivot = nums[low + (high - low) / 2];
 
         while (i <= j) {
             while (nums[i] < pivot) {
@@ -459,11 +484,11 @@ class QuickSort {
                 j--;
             }
         }
-        if (nizszy < j) {
-            quickSort(nums, nizszy, j);
+        if (low < j) {
+            quickSort(nums, low, j);
         }
-        if (wyzszy > i) {
-            quickSort(nums, i, wyzszy);
+        if (high > i) {
+            quickSort(nums, i, high);
         }
     }
 
