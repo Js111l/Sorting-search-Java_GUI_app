@@ -5,6 +5,8 @@ import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.ItemEvent;
+import java.util.*;
+import java.util.List;
 
 
 public class Main {
@@ -52,10 +54,10 @@ class App extends JFrame implements ActionListener {
     int setSearchMethod;
 
     int[] array;
-    int[] arr1;
-    int[] arr2;
-    int[] arr3;
-    int[] arr4;
+    int[] arr1={-1};
+    int[] arr2={-1};
+    int[] arr3={-1};
+    int[] arr4={-1};
 
 
     App() {
@@ -67,10 +69,8 @@ class App extends JFrame implements ActionListener {
 
 
         field = new JTextArea();
-        field.setEnabled(true);
-        field.setEditable(true);
+        field.setEditable(false);
         field.setBounds(290, 30, 150, 30);
-
 
 
         min = new JTextField();
@@ -226,17 +226,15 @@ class App extends JFrame implements ActionListener {
         indexInArray.setBounds(300, 470, 70, 30);
         indexInArray.setEditable(false);
 
-        JLabel label=new JLabel();
+        JLabel label = new JLabel();
         label.setText("Index in array: ");
-        label.setBounds(280,440,90,30);
+        label.setBounds(280, 440, 90, 30);
         this.add(label);
 
-        JLabel label1=new JLabel();
+        JLabel label1 = new JLabel();
         label1.setText("Search for a number: ");
-        label1.setBounds(140,440,130,30);
+        label1.setBounds(140, 440, 130, 30);
         this.add(label1);
-
-
 
 
         chooseMethodOfSorting = new JComboBox<String>();
@@ -245,7 +243,6 @@ class App extends JFrame implements ActionListener {
 
 
         BinarySearch.setText("BinarySearch");
-        chooseMethodOfSorting.addItem("Choose");
         chooseMethodOfSorting.addItem("BinarySearch");
         chooseMethodOfSorting.addItem("InterpolationSearch");
         chooseMethodOfSorting.addItemListener(e -> {
@@ -273,7 +270,7 @@ class App extends JFrame implements ActionListener {
         this.add(max);
         this.add(min);
         this.getContentPane().setBackground(Color.lightGray);
-        this.setSize(650,800);
+        this.setSize(650, 800);
         this.setResizable(false);
         this.setLayout(null);
         this.add(field);
@@ -285,139 +282,197 @@ class App extends JFrame implements ActionListener {
     @Override
     public void actionPerformed(ActionEvent e) {
 
-try {
-    if (e.getSource() == generate) {
+        try {
+            if (e.getSource() == generate) {
 
-        if(arrayLength.getText().isEmpty() || max.getText().isEmpty() || min.getText().isEmpty()){
-            throw new Exception();
+                if (arrayLength.getText().isEmpty() || max.getText().isEmpty() || min.getText().isEmpty()) {
+                    throw new Exception();
+                }
+
+                array = new int[Integer.parseInt(arrayLength.getText())];
+
+                StringBuilder sb = new StringBuilder();
+
+                for (int i = 0; i < Integer.parseInt(arrayLength.getText()); i++) {
+                    array[i] = (int) Math.floor((Math.random() * (Integer.parseInt(max.getText()) -
+                            Integer.parseInt(min.getText()) + 1) + Integer.parseInt(min.getText())));
+                }
+
+
+                for (int j : array) {
+                    sb.append(j);
+                }
+
+                indexInArray.setText("");
+                field.setText(sb.toString());
+
+            }
+        } catch (Exception ex) {
+            JOptionPane.showMessageDialog(null, "Please, insert required data", "error", JOptionPane.ERROR_MESSAGE);
+
         }
 
-        array = new int[Integer.parseInt(arrayLength.getText())];
+        try {
+            if (e.getSource() == sortUsingBubblesort) {
+                if (arrayLength.getText().isEmpty() || max.getText().isEmpty() || min.getText().isEmpty()) {
+                    throw new Exception();
+                }
 
-        StringBuilder sb = new StringBuilder();
+                arr1 = array;
+                long start = System.nanoTime();
 
-        for (int i = 0; i < Integer.parseInt(arrayLength.getText()); i++) {
-            array[i] = (int) Math.floor((Math.random() * (Integer.parseInt(max.getText()) -
-                    Integer.parseInt(min.getText()) + 1) + Integer.parseInt(min.getText())));
-        }
-
-
-        for (int j : array) {
-            sb.append(j);
-        }
-
-        indexInArray.setText("");
-        field.setText(sb.toString());
-
-    }
-} catch (Exception ex) {
-JOptionPane.showMessageDialog(null,"Please, insert required data","error",JOptionPane.ERROR_MESSAGE);
-
-}
-        if (e.getSource() == sortUsingBubblesort) {
-            arr1 = array;
-            long start = System.nanoTime();
-
-            for (int i = 0; i < arr1.length; i++) {
-                for (int j = i + 1; j < arr1.length; j++) {
-                    if (arr1[i] > arr1[j]) {
-                        int temp = arr1[j];
-                        arr1[j] = arr1[i];
-                        arr1[i] = temp;
+                for (int i = 0; i < arr1.length; i++) {
+                    for (int j = i + 1; j < arr1.length; j++) {
+                        if (arr1[i] > arr1[j]) {
+                            int temp = arr1[j];
+                            arr1[j] = arr1[i];
+                            arr1[i] = temp;
+                        }
                     }
                 }
-            }
-            long time = (System.nanoTime() - start);
+                long time = (System.nanoTime() - start);
 
-            StringBuilder sb = new StringBuilder();
+                StringBuilder sb = new StringBuilder();
 
-            for (int j : arr1) {
-                sb.append(j);
-            }
-
-            bubblesortArea.setText(sb.toString());
-            bubblesortTime.setText("Time(ns): " + time);
-        }
-        if (e.getSource() == sortUsingSelectionsort) {
-            arr2 = array;
-
-            long start = System.nanoTime();
-
-            for (int i = 0; i < arr2.length; i++) {
-                int min = i;
-                for (int j = i + 1; j < arr2.length; j++) {
-                    if (arr2[min] > arr2[j]) {
-                        min = j;
-                    }
+                for (int j : arr1) {
+                    sb.append(j);
                 }
-                int temp = arr2[min];
-                arr2[min] = arr2[i];
-                arr2[i] = temp;
+
+                bubblesortArea.setText(sb.toString());
+                bubblesortTime.setText("Time(ns): " + time);
             }
-
-            long time = (System.nanoTime() - start);
-
-            StringBuilder sb = new StringBuilder();
-
-            for (int j : arr2) {
-                sb.append(j);
-            }
-
-            selectionsortArea.setText(sb.toString());
-            selectionsortTime.setText("Time(ns): " + time);
-
+        } catch (Exception ex) {
+            JOptionPane.showMessageDialog(null,"You need to generate data first in order to sort it.","Warning",JOptionPane.ERROR_MESSAGE);
         }
-        if (e.getSource() == sortUsingQuicksort) {
-            arr3 = array;
-            long start = System.nanoTime();
+        try {
+            if (e.getSource() == sortUsingSelectionsort) {
+                if (arrayLength.getText().isEmpty() || max.getText().isEmpty() || min.getText().isEmpty()) {
+                    throw new Exception();
+                }
+                arr2 = array;
+
+                long start = System.nanoTime();
+
+                for (int i = 0; i < arr2.length; i++) {
+                    int min = i;
+                    for (int j = i + 1; j < arr2.length; j++) {
+                        if (arr2[min] > arr2[j]) {
+                            min = j;
+                        }
+                    }
+                    int temp = arr2[min];
+                    arr2[min] = arr2[i];
+                    arr2[i] = temp;
+                }
+
+                long time = (System.nanoTime() - start);
+
+                StringBuilder sb = new StringBuilder();
+
+                for (int j : arr2) {
+                    sb.append(j);
+                }
+
+                selectionsortArea.setText(sb.toString());
+                selectionsortTime.setText("Time(ns): " + time);
+
+            }
+        } catch (Exception ex) {
+            JOptionPane.showMessageDialog(null,"You need to generate data first in order to sort it.","Warning",JOptionPane.ERROR_MESSAGE);
+        }
+        try {
+            if (e.getSource() == sortUsingQuicksort) {
+                if (arrayLength.getText().isEmpty() || max.getText().isEmpty() || min.getText().isEmpty()) {
+                    throw new Exception();
+                }
+                arr3 = array;
+                long start = System.nanoTime();
 
 
-            QuickSort.quickSort(arr3, 0, Integer.parseInt(arrayLength.getText()) - 1);
-            long time = (System.nanoTime() - start);
+                QuickSort.quickSort(arr3, 0, Integer.parseInt(arrayLength.getText()) - 1);
+                long time = (System.nanoTime() - start);
 
-            StringBuilder sb = new StringBuilder();
-            for (int j : arr3) {
-                sb.append(j);
+                StringBuilder sb = new StringBuilder();
+                for (int j : arr3) {
+                    sb.append(j);
+                }
+
+                quicksortArea.setText(sb.toString());
+                quicksortTime.setText("Time(ns): " + time);
+
+
             }
 
-            quicksortArea.setText(sb.toString());
-            quicksortTime.setText("Time(ns): " + time);
-
-
+        } catch (Exception ex) {
+            JOptionPane.showMessageDialog(null,"You need to generate data first in order to sort it.","Warning",JOptionPane.ERROR_MESSAGE);
         }
+        try {
+            if (e.getSource() == sortUsingMergesort) {
+                if (arrayLength.getText().isEmpty() || max.getText().isEmpty() || min.getText().isEmpty()) {
+                    throw new Exception();
+                }
+                arr4 = array;
+                long start = System.nanoTime();
 
-        if (e.getSource() == sortUsingMergesort) {
-
-            arr4 = array;
-            long start = System.nanoTime();
-
-            MergeSort.mergeSort(arr4, 0, arr4.length - 1);
+                MergeSort.mergeSort(arr4, 0, arr4.length - 1);
 
 
-            long time = (System.nanoTime() - start);
+                long time = (System.nanoTime() - start);
 
-            StringBuilder sb = new StringBuilder();
+                StringBuilder sb = new StringBuilder();
 
-            for (int j : arr4) {
-                sb.append(j);
+                for (int j : arr4) {
+                    sb.append(j);
+                }
+                mergesortArea.setText(sb.toString());
+                mergesortTime.setText("Time(ns): " + time);
             }
-            mergesortArea.setText(sb.toString());
-            mergesortTime.setText("Time(ns): " + time);
+        } catch (Exception ex) {
+JOptionPane.showMessageDialog(null,"You need to generate data first in order to sort it.","Warning",JOptionPane.ERROR_MESSAGE);        }
+
+        int [][] sortedArrays={arr1,arr2,arr3,arr4};
+
+        List<int []>arrayForSearch=new ArrayList<>();
+
+        int counter=-1;
+
+        for (int [] array:sortedArrays
+             ) {
+            if(array.length>1){
+                arrayForSearch.add(array);
+                counter++;
+            }
         }
 
-        Object[] sortedArrays = {arr1,arr2,arr3,arr4};
 
 
-        if (e.getSource() == search) {
 
-            int[] methods = {BinarySearch.binarySearch(arr1, 0,
-                    arr1.length - 1, Integer.parseInt(seacrhedNumber.getText())),
-                    BinarySearch.interpolationSearch(arr1,
-                            0, arr1.length - 1, Integer.parseInt(seacrhedNumber.getText()))};
+        try {
+            if (e.getSource() == search) {
 
-            indexInArray.setText(String.valueOf(methods[setSearchMethod]));
+                if (counter == -1) {
+                    throw new Exception();
+                }
+                try {
+                        if(seacrhedNumber.getText().isEmpty()){
+                            throw new Exception();
+                        }
 
+                    int[] methods = {BinarySearch.binarySearch(arrayForSearch.get(0), 0,
+                            array.length - 1, Integer.parseInt(seacrhedNumber.getText())),
+                            BinarySearch.interpolationSearch(arrayForSearch.get(0),
+                                    0, array.length - 1, Integer.parseInt(seacrhedNumber.getText()))};
 
+                    indexInArray.setText(String.valueOf(methods[setSearchMethod]));
+                } catch (Exception ex) {
+                    JOptionPane.showMessageDialog(null,
+                            "Please, insert the number you want to search","Warning",JOptionPane.ERROR_MESSAGE);
+                }
+            }
+        } catch (Exception ex) {
+            JOptionPane.showMessageDialog(
+                    null,
+                    "BinarySearch and InterpolationSearch works only on sorted arrays!");
         }
     }
 }
@@ -455,6 +510,10 @@ class BinarySearch {
     }
 
 }
+
+
+
+
 
 class QuickSort {
 
@@ -500,54 +559,54 @@ class QuickSort {
 }
 
 
-class MergeSort{
+class MergeSort {
 
-    static void mergeSort(int [] array,int low,int high){
+    static void mergeSort(int[] array, int low, int high) {
 
-        if(high<=low){
+        if (high <= low) {
             return;
         }
-        int mid=(low+high)/2;
+        int mid = (low + high) / 2;
 
-        mergeSort(array,low,mid);
-        mergeSort(array,mid+1,high);
-        merge(array,low,mid,high);
+        mergeSort(array, low, mid);
+        mergeSort(array, mid + 1, high);
+        merge(array, low, mid, high);
     }
 
-    private static void merge(int[] array, int low, int mid,int high) {
-        int [] leftArray =new int[mid-low+1];
-        int [] rightArray =new int[high-mid];
+    private static void merge(int[] array, int low, int mid, int high) {
+        int[] leftArray = new int[mid - low + 1];
+        int[] rightArray = new int[high - mid];
 
-        for(int i=0;i<leftArray.length;i++){
-            leftArray[i]=array[i+low];
+        for (int i = 0; i < leftArray.length; i++) {
+            leftArray[i] = array[i + low];
         }
-        for(int i=0;i<rightArray.length;i++){
-            rightArray[i]=array[i+mid+1];
+        for (int i = 0; i < rightArray.length; i++) {
+            rightArray[i] = array[i + mid + 1];
         }
 
-        int i=0;
-        int j=0;
-        int index=low;
+        int i = 0;
+        int j = 0;
+        int index = low;
 
-        while (i<leftArray.length && j<rightArray.length){
-            if(leftArray[i]<rightArray[j]){
-                array[index]=leftArray[i];
+        while (i < leftArray.length && j < rightArray.length) {
+            if (leftArray[i] < rightArray[j]) {
+                array[index] = leftArray[i];
                 index++;
                 i++;
-            }else {
-                array[index]=rightArray[j];
+            } else {
+                array[index] = rightArray[j];
                 j++;
                 index++;
             }
 
         }
-        while (i<leftArray.length){
-            array[index]=leftArray[i];
+        while (i < leftArray.length) {
+            array[index] = leftArray[i];
             i++;
             index++;
         }
-        while (j<rightArray.length){
-            array[index]=rightArray[j];
+        while (j < rightArray.length) {
+            array[index] = rightArray[j];
             j++;
             index++;
         }
